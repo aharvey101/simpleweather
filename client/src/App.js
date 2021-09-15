@@ -15,7 +15,8 @@ import {
 import WeatherCard from './Components/Card/WeatherCard'
 
 function App() {
-  const [location, setLocation] = useState('Melbourne')
+  const [searchInput, setSearchInput] = useState('Melbourne')
+  const [city, setCity] = useState()
   const [loading, setLoading] = useState(false)
   const [weather, setWeather] = useState([])
   const [searchError, setSearchError] = useState(false)
@@ -29,12 +30,12 @@ function App() {
 
     const url = `/api/location/search/${location}`
     axios.get(url).then(async (res) => {
-      setLocation(res.data.title)
       if (res.data.length) {
         const woeid = res.data[0].woeid
         const locationRes = await axios.get(`/api/location/${woeid}`)
         const consolidatedWeather = locationRes.data.consolidated_weather
         setWeather(consolidatedWeather)
+        setCity(res.data[0].title)
         setLoading(false)
       } else {
         setSearchError(true)
@@ -44,7 +45,7 @@ function App() {
 
   const handleUpdate = (e) => {
     e.preventDefault()
-    setLocation(e.target.value)
+    setSearchInput(e.target.value)
   }
 
   return (
@@ -52,7 +53,8 @@ function App() {
       <Container>
         <Form>
           <FormGroup className="m-3">
-            <h1>Search For Your City's Weather</h1>
+            {city ? <h1>{city}</h1> : <h1>Search For Your City's Weather</h1>}
+
             <Label for="city">City</Label>
             <Input
               onChange={(e) => handleUpdate(e)}
@@ -70,7 +72,7 @@ function App() {
             <Button
               color="primary"
               onClick={() => {
-                handleSearch(location)
+                handleSearch(searchInput)
               }}
             >
               Search
