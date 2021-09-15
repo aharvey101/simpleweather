@@ -9,14 +9,16 @@
     "install-client": "cd client && npm install",
     "install-server": "cd server && npm install",
     "server": "npm run start --prefix server",
-    "client": "cd client && npm run start",
+    "client": "npm run start --prefix client",
     "build": "cd client && npm run build",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "npm run install-server && npm run install-client && npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^6.2.1",
     "dotenv": "^10.0.0"
   }
 }

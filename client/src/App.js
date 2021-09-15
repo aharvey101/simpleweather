@@ -26,16 +26,13 @@ function App() {
     }
     setSearchError(false)
     setLoading(true)
-    const local = 'http://localhost:8000'
-    const url =
-      process.env.NODE_ENV !== 'production'
-        ? `${local}/api/location/search/${location}`
-        : `/api/location/search/${location}`
+
+    const url = `/api/location/search/${location}`
     axios.get(url).then(async (res) => {
       setLocation(res.data.title)
       if (res.data.length) {
         const woeid = res.data[0].woeid
-        const locationRes = await axios.get(`${local}/api/location/${woeid}`)
+        const locationRes = await axios.get(`/api/location/${woeid}`)
         const consolidatedWeather = locationRes.data.consolidated_weather
         setWeather(consolidatedWeather)
         setLoading(false)
@@ -49,8 +46,6 @@ function App() {
     e.preventDefault()
     setLocation(e.target.value)
   }
-
-  console.log(location)
 
   return (
     <main>
