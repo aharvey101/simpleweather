@@ -20,7 +20,7 @@ function App() {
   const [weather, setWeather] = useState([])
   const [searchError, setSearchError] = useState(false)
 
-  const handleSearch = async (location) => {
+  const handleSearch = (location) => {
     if (!location) {
       return
     }
@@ -31,7 +31,7 @@ function App() {
       process.env.NODE_ENV !== 'production'
         ? `${local}/api/location/search/${location}`
         : `/api/location/search/${location}`
-    await axios.get(url).then(async (res) => {
+    axios.get(url).then(async (res) => {
       setLocation(res.data.title)
       if (res.data.length) {
         const woeid = res.data[0].woeid
@@ -39,7 +39,6 @@ function App() {
         const consolidatedWeather = locationRes.data.consolidated_weather
         setWeather(consolidatedWeather)
         setLoading(false)
-        console.log('done')
       } else {
         setSearchError(true)
       }
@@ -58,11 +57,15 @@ function App() {
       <Container>
         <Form>
           <FormGroup className="m-3">
-            <h1>Find Weather For Your City</h1>
+            <h1>Search For Your City's Weather</h1>
             <Label for="city">City</Label>
             <Input
               onChange={(e) => handleUpdate(e)}
-              // onKeyDown={(e) => handleSearch(location, e)}
+              onKeyPress={(ev) => {
+                if (ev.key === 'Enter') {
+                  ev.preventDefault()
+                }
+              }}
               type="text"
               id="city"
               placeholder="Your City"
