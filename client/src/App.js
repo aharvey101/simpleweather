@@ -61,6 +61,7 @@ function App() {
               onKeyPress={(ev) => {
                 if (ev.key === 'Enter') {
                   ev.preventDefault()
+                  handleSearch(searchInput)
                 }
               }}
               type="text"
