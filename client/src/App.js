@@ -24,7 +24,7 @@ function App() {
     if (!location) {
       return
     }
-
+    setSearchError(false)
     setLoading(true)
     const local = 'http://localhost:8000'
     const url =
