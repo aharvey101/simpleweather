@@ -1,8 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from 'react'
+import { mount } from 'enzyme'
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+describe('Application', () => {
+  it('searches for a city', () => {})
+  it('shows cards for the city searched')
+})
